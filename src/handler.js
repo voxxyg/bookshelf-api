@@ -9,7 +9,7 @@ const addBookHandler = (request, h) => {
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
 
-    if (name === undefined) {
+    if (!name) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku',
@@ -26,16 +26,21 @@ const addBookHandler = (request, h) => {
         return response;
     }
 
-    let finished = " ";
-    if (pageCount === readPage) {
-        finished = true
-    } else {
-        finished = false
-    }
+    const finished = pageCount === readPage
 
     const newBook = {
-        id, name, year, author, summary, publisher, pageCount, readPage,
-        finished, reading, insertedAt, updatedAt,
+        id, 
+        name, 
+        year, 
+        author, 
+        summary, 
+        publisher, 
+        pageCount, 
+        readPage,
+        finished, 
+        reading, 
+        insertedAt, 
+        updatedAt,
     };
 
     books.push(newBook);
@@ -82,7 +87,7 @@ const getBooksByIdHandler = (request, h) => {
 
     const book = books.filter((b) => b.id === bookId)[0];
 
-    if(book !== undefined) {
+    if(book) {
         return {
             status: 'success',
             data: {
@@ -106,7 +111,7 @@ const editBooksByIdHandler = (request, h) => {
     const {name, year, author, summary, publisher, pageCount, readPage, reading} = request.payload;
     const updatedAt = new Date().toISOString();
 
-    if (name === undefined) {
+    if (!name) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Mohon isi nama buku',
